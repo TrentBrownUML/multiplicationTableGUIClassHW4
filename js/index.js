@@ -1,5 +1,35 @@
 let _placeholderTableHTML = null;
 
+let verticalOffset = 0
+let horizontalOffset = 0
+
+let sizes = {
+    width: 10,
+    height: 10,
+}
+
+renderTableFromGlobals()
+
+document.addEventListener('keydown', function(event) {
+    switch (event.key) {
+        case "ArrowUp":
+            verticalOffset--;
+            break
+        case "ArrowDown":
+            verticalOffset++;
+            break
+        case "ArrowLeft":
+            horizontalOffset--;
+            break
+        case "ArrowRight":
+            horizontalOffset++;
+            break
+        default:
+            return
+    }
+
+    renderTableFromGlobals()
+});
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("multiplicationForm");
     if (form) {
@@ -17,25 +47,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function renderTableFromGlobals() {
+    const container = document.getElementById("tableContainer");
+    container.innerHTML = ""
+    container.appendChild(buildTableFragment(horizontalOffset, horizontalOffset+sizes.width, verticalOffset, verticalOffset+sizes.height))
+}
+
 function handleFormSubmit(formElement) {
     const formData = new FormData(formElement);
 
-    const minimumColumnCount = formData.get("minimumColumnValue");
-    const maximumColumnCount = formData.get("maximumColumnValue");
-    const minimumRowCount = formData.get("minimumRowValue");
-    const maximumRowCount = formData.get("maximumRowValue");
+    const rowCount = formData.get("rowCount");
+    const columnCount = formData.get("columnCount");
 
     //console.log(minimumColumnCount, maximumColumnCount, minimumRowCount, maximumRowCount);
 
-    const safelyParsedValues = {
-        minimumColumnValue: typeAndValueValidator(minimumColumnCount),// function will be called to check the type and value of the inputted values
-        maximumColumnValue: typeAndValueValidator(maximumColumnCount),
-        minimumRowValue: typeAndValueValidator(minimumRowCount),
-        maximumRowValue: typeAndValueValidator(maximumRowCount),
+    safelyParsedValues = {
+        rowCount: typeAndValueValidator(rowCount),// function will be called to check the type and value of the inputted values
+        columnCount: typeAndValueValidator(columnCount),
     };
 
     const invalidEntriesList = Object.entries(safelyParsedValues)// for any invalid entries this will display and notify the user
-        .filter(([k, v]) => v === null)
+        .filter(([k, v]) => v === null || v <= 0)
         .map(([k]) => k);
 
     if (invalidEntriesList.length) {
@@ -52,28 +84,12 @@ function handleFormSubmit(formElement) {
         showMessage('Internal error: missing table container');
         return;
     }
-    // If the user supplied a max that's less than the min for either axis, revert to the
-    // original placeholder table instead of trying to generate a swapped table.
-    if (safelyParsedValues.maximumColumnValue < safelyParsedValues.minimumColumnValue ||
-        safelyParsedValues.maximumRowValue < safelyParsedValues.minimumRowValue) {
-        if (_placeholderTableHTML) {
-            container.innerHTML = _placeholderTableHTML;
-            showMessage('Invalid ranges (max < min). Reverted to placeholder table.');
-        } else {
-            container.innerHTML = '';
-            showMessage('Invalid ranges (max < min). No placeholder available.');
-        }
-        return;
-    }
+    
+    sizes.height = safelyParsedValues.rowCount
+    sizes.width = safelyParsedValues.columnCount
+
     // Build the table using a clear min/max parameter order: (colMin, colMax, rowMin, rowMax)
-    const newTable = buildTableFragment(
-        safelyParsedValues.minimumColumnValue,
-        safelyParsedValues.maximumColumnValue,
-        safelyParsedValues.minimumRowValue,
-        safelyParsedValues.maximumRowValue
-    );
-    container.innerHTML = "";
-    container.appendChild(newTable);
+    renderTableFromGlobals()
 }
 
 function typeAndValueValidator(inputValue) {
@@ -125,7 +141,7 @@ function buildTableFragment(columnMin, columnMax, rowMin, rowMax) {
     rowMax = Math.trunc(rowMax);
 
     // Debug: log the numeric ranges actually used
-    console.debug('buildTableFragment params (colMin, colMax, rowMin, rowMax):', columnMin, columnMax, rowMin, rowMax);
+    // console.debug('buildTableFragment params (colMin, colMax, rowMin, rowMax):', columnMin, columnMax, rowMin, rowMax);
 
     // Basic validation
     if (![columnMin, columnMax, rowMin, rowMax].every(Number.isFinite)) {
@@ -147,7 +163,7 @@ function buildTableFragment(columnMin, columnMax, rowMin, rowMax) {
     const topLeft = document.createElement("th"); // empty top-left cell
     topLeft.setAttribute('scope', 'col');
     headerRow.appendChild(topLeft);
-    for (let c = columnMin; c <= columnMax; c++) {
+    for (let c = columnMin; c < columnMax; c++) {
         const th = document.createElement("th");
         th.setAttribute('scope', 'col');
         th.textContent = String(c);
@@ -159,14 +175,14 @@ function buildTableFragment(columnMin, columnMax, rowMin, rowMax) {
     // Tbody with row headers and products
     const tbody = document.createElement("tbody");
     const frag = document.createDocumentFragment();
-    for (let r = rowMin; r <= rowMax; r++) {
+    for (let r = rowMin; r < rowMax; r++) {
         const tr = document.createElement("tr");
         const rowHeader = document.createElement("th");
         rowHeader.setAttribute('scope', 'row');
         rowHeader.textContent = String(r);
         tr.appendChild(rowHeader);
 
-        for (let c = columnMin; c <= columnMax; c++) {
+        for (let c = columnMin; c < columnMax; c++) {
             const td = document.createElement("td");
             td.textContent = String(r * c);
             tr.appendChild(td);

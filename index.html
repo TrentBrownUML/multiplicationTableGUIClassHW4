@@ -11,35 +11,21 @@
 <body>
     <div class="card" role="group" aria-label="Multiplication Input Form">
         <h1>Multiplication Input Form</h1>
-        <p>Enter your desired multiplication range below.</p>
+        <p>Enter your desired multiplication table size below.</p>
         <form id="multiplicationForm">
             <div class="field">
-                <label for="minimumColumnValue">
-                    <h4>Minimum Column Value</h4>
+                <label for="rowCount">
+                    <h4>Row Count</h4>
                 </label>
-                <input id="minimumColumnValue" name="minimumColumnValue" type="text"
+                <input id="rowCount" name="rowCount" type="text"
                     placeholder="Enter the lowest value for the Y axis.">
             </div>
             <div class="field">
-                <label for="maximumColumnValue">
-                    <h4>Maximum Column Value</h4>
+                <label for="columnCount">
+                    <h4>Column Count</h4>
                 </label>
-                <input id="maximumColumnValue" name="maximumColumnValue" type="text"
-                    placeholder="Enter the highest value for the Y axis.">
-            </div>
-            <div class="field">
-                <label for="minimumRowValue">
-                    <h4>Minimum Row Value</h4>
-                </label>
-                <input id="minimumRowValue" name="minimumRowValue" type="text"
+                <input id="columnCount" name="columnCount" type="text"
                     placeholder="Enter the lowest value for the X axis.">
-            </div>
-            <div class="field">
-                <label for="maximumRowValue">
-                    <h4>Maximum Row Value</h4>
-                </label>
-                <input id="maximumRowValue" name="maximumRowValue" type="text"
-                    placeholder="Enter the highest value for the X axis">
             </div>
             <button type="submit" id="calculateBtn">Calculate my values!</button>
         </form>
@@ -53,46 +39,7 @@
             this container by your JS (e.g. using DocumentFragment). Keeping the sample table
             here helps show the layout before any generation occurs. -->
         <table class="multiplicationTable" role="table" aria-label="Sample multiplication table">
-            <thead>
-                <tr>
-                    <th>Col A</th>
-                    <th>Col B</th>
-                    <th>Col C</th>
-                    <th>Col D</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>R1C1</td>
-                    <td>R1C2</td>
-                    <td>R1C3</td>
-                    <td>R1C4</td>
-                </tr>
-                <tr>
-                    <td>R2C1</td>
-                    <td>R2C2</td>
-                    <td>R2C3</td>
-                    <td>R2C4</td>
-                </tr>
-                <tr>
-                    <td>R3C1</td>
-                    <td>R3C2</td>
-                    <td>R3C3</td>
-                    <td>R3C4</td>
-                </tr>
-                <tr>
-                    <td>R4C1</td>
-                    <td>R4C2</td>
-                    <td>R4C3</td>
-                    <td>R4C4</td>
-                </tr>
-                <tr>
-                    <td>R5C1</td>
-                    <td>R5C2</td>
-                    <td>R5C3</td>
-                    <td>R5C4</td>
-                </tr>
-            </tbody>
+            
         </table>
     </div>
     <script src="js/index.js"></script>
