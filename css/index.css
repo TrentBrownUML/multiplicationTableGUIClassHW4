@@ -1,193 +1,214 @@
+        /*
+        Author: Trent Brown (GitHub: TrentBrownUML)
+        File: css/index.css - shared styles for HW4 sliders, tabs, and validation UI
+        */
+
         :root {
             --bg: #f4f7fb;
             --card: #ffffff;
             --accent: #2563eb;
+            --accent-dark: #1e3a8a;
             --muted: #5c5c5c;
+            --error: #b91c1c;
         }
 
         html,
         body {
-            height: 100%;
+            min-height: 100%;
             margin: 0;
             font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg), #e9eef6);
+            color: #0f172a;
         }
 
         body {
             display: flex;
-            align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, var(--bg), #e9eef6);
+            padding: 32px 16px 48px;
+            box-sizing: border-box;
+        }
+
+        .tabs {
+            width: 100%;
+            max-width: 1100px;
+            background: transparent;
         }
 
         .card {
-            width: 360px;
-            max-width: 94%;
             background: var(--card);
             padding: 24px;
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-            margin-left: 2.5%;
+            margin-bottom: 24px;
         }
 
-        h1 {
-            font-size: 18px;
-            margin: 0 0 14px;
+        h1,
+        h2 {
+            margin: 0 0 16px;
         }
 
         .field {
             display: flex;
             flex-direction: column;
-            margin-bottom: 5px;
+            margin-bottom: 18px;
         }
 
         label {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--muted);
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
-        input[type="text"],
+        input[type="number"],
         textarea {
             padding: 10px 12px;
             border: 1px solid #5c5c5c;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
             transition: box-shadow .12s, border-color .12s;
+            background: #fff;
         }
 
         input:focus,
         textarea:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08)
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         button {
             width: 100%;
-            padding: 10px 12px;
+            padding: 12px 14px;
             background: var(--accent);
             color: #fff;
             border: none;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 8px;
+            transition: background .15s ease-in-out;
+        }
+
+        button:hover {
+            background: var(--accent-dark);
+        }
+
+        button.secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        button.secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .note {
+            font-size: 14px;
+            color: var(--muted);
+            text-align: left;
+            margin-top: 12px;
+        }
+
+        .slider {
+            margin: 10px 4px 0;
+        }
+
+        .field-hint {
             font-size: 13px;
             color: var(--muted);
-            text-align: center;
-            margin-top: 10px;
+            margin-top: 6px;
         }
 
-        .multiplicationTable {
-            border-collapse: collapse;
-            width: 100%;
-            max-width: 800px;
-            margin: 1rem auto;
-            font-family: sans-serif;
+        .field-error {
+            font-size: 13px;
+            color: var(--error);
+            margin-top: 6px;
         }
 
-        .multiplicationTable th,
-        .multiplicationTable td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+        .has-error {
+            border-color: var(--error) !important;
+            box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2) !important;
         }
 
-        .multiplicationTable thead th {
-            background: #333;
-            color: #fff;
+        .live-preview h2,
+        .tab-management h2 {
+            font-size: 18px;
         }
 
-        /* Row striping */
-        .multiplicationTable tbody tr:nth-child(odd) {
-            background: #fafafa;
+        .preview-hint {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 12px;
         }
 
-        .multiplicationTable tbody tr:nth-child(even) {
-            background: #ffffff;
+        .placeholder {
+            color: var(--muted);
+            margin: 0;
         }
 
-        /* Column coloring (applies to body cells only) */
-        .multiplicationTable tbody td:nth-child(1) {
-            background: #e6f7ff;
+        .tab-selection-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        /* 1st column */
-        .multiplicationTable tbody td:nth-child(2) {
-            background: #fff0f6;
+        .tab-selection-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fff;
         }
 
-        /* 2nd column */
-        .multiplicationTable tbody td:nth-child(3) {
-            background: #f6fff0;
+        .tab-selection-item label {
+            flex: 1;
+            color: var(--muted);
         }
 
-        /* 3rd column */
-        .multiplicationTable tbody td:nth-child(4) {
-            background: #fff7e6;
+        .tab-selection-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
         }
 
-        /* 4th column */
-
-        /* Responsive small-screen tweak */
-        @media (max-width: 480px) {
-
-            .multiplicationTable th,
-            .multiplicationTable td {
-                padding: 8px;
-                font-size: 14px;
-            }
-        }
-
-        /* Styles for tables generated by JavaScript (class: .generatedTable)
-    The JS sets `table.className = 'generatedTable'` when creating tables.
-    Tweak the variables below or override these selectors to change appearance. */
         .table-container {
-            /* Constrain the table area and allow scrolling when table is larger than viewport */
             width: 100%;
-            max-width: 1000px;
-            margin: 1rem auto;
-            box-sizing: border-box;
-            padding: 6px;
-            /* small breathing room */
+            margin: 0 auto;
             max-height: 60vh;
-            /* limit height so vertical scrollbar appears when tall */
             overflow: auto;
-            /* both horizontal and vertical scrollbars when needed */
+            padding: 4px;
+            box-sizing: border-box;
         }
 
+        .multiplicationTable,
         .generatedTable {
             border-collapse: collapse;
-            /* let the table size to its content so horizontal scrolling can occur inside the container */
-            width: auto;
-            max-width: none;
+            width: 100%;
             min-width: max-content;
-            font-family: inherit;
-            background: #ffffff;
+            margin: 0 auto;
+            font-family: sans-serif;
+            background: #fff;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
         }
 
         .generatedTable th,
         .generatedTable td {
-            /* match the existing multiplicationTable cell styles for consistent color scheme */
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
             vertical-align: middle;
-            font-family: sans-serif;
         }
 
         .generatedTable thead th {
-            /* use same header color as the sample table */
             background: #333;
             color: #fff;
             font-weight: 600;
         }
 
-        /* Row striping (match multiplicationTable) */
         .generatedTable tbody tr:nth-child(odd) {
             background: #fafafa;
         }
@@ -196,8 +217,6 @@
             background: #ffffff;
         }
 
-        /* Column coloring (cycle through colors for any number of columns)
-           Uses 4-color pattern repeating across columns so colors alternate regardless of column count. */
         .generatedTable tbody td:nth-child(4n+1) {
             background: #e6f7ff;
         }
@@ -214,23 +233,10 @@
             background: #fff7e6;
         }
 
-        /* Make row headers match the visual style of the table header for consistency */
         .generatedTable tbody th[scope="row"] {
             font-weight: 600;
             background: #333;
-            /* match thead header background */
             color: #fff;
-            /* match thead header text color */
-        }
-
-        /* Responsive tweak */
-        @media (max-width: 480px) {
-
-            .generatedTable th,
-            .generatedTable td {
-                padding: 6px 8px;
-                font-size: 13px;
-            }
         }
 
         .generatedTable.compact th,
@@ -238,6 +244,56 @@
             padding: 6px 8px;
         }
 
-        .generatedTable.highlight-headers thead th {
-            background: #0b63d6;
+        .ui-tabs .ui-tabs-nav {
+            margin: 0 0 20px;
+            padding: 0;
+            border: none;
+            background: transparent;
+        }
+
+        .ui-tabs .ui-tabs-nav li {
+            border: none;
+            background: transparent;
+            margin-right: 8px;
+            position: relative;
+        }
+
+        .ui-tabs .ui-tabs-nav li a {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 8px 34px 8px 14px;
+            border: 1px solid #cbd5f5;
+            color: #0f172a;
+        }
+
+        .tab-close {
+            position: absolute;
+            right: 6px;
+            top: 8px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            line-height: 1;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .tab-close:hover {
+            color: #b91c1c;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .generatedTable th,
+            .generatedTable td {
+                padding: 8px;
+                font-size: 13px;
+            }
         }
